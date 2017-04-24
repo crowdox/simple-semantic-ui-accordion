@@ -6,7 +6,39 @@ export default Ember.Component.extend(SSTransition, {
 
   // Transition Defaults
   transitionMode: 'fade',
-  transitionScope: '> .content-transition'
+  transitionScope: '> *',
   // Passed in from accordion
   //transitionDuration: 350
+
+  isOpened() {
+
+  },
+
+  isOpening() {
+
+  },
+
+  isClosed() {
+
+  },
+
+  isClosing() {
+
+  },
+
+  open() {
+
+  },
+
+  _opened() {
+
+  },
+
+  close() {
+
+  },
+
+  _closed() {
+
+  }
 });
