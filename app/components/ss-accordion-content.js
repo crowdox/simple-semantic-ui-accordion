@@ -4,7 +4,7 @@ import SSTransition from 'manage/mixins/ss-transition';
 export default Ember.Component.extend(SSTransition, {
   classNames: ['content'],
 
-  _isActive: Ember.computed.readOnly('accordion._isActive'),
+  _isActive: Ember.computed.readOnly('accordion.isActive'),
 
   didInsertElement() {
     this._super(...arguments);
@@ -16,21 +16,27 @@ export default Ember.Component.extend(SSTransition, {
   },
 
   activeChanged: Ember.observer('_isActive', function () {
+    Ember.Logger.info('active changed');
     if (this.get('_isActive')) {
       if (this.isOpened() || this.isOpening()) {
+        Ember.Logger.info('open returned early');
         return;
       }
+      Ember.Logger.info('opening');
       this.open();
     } else {
       if (this.isClosed() || this.isClosing()) {
+        Ember.Logger.info('closing early');
         return;
       }
+
+      Ember.Logger.info('is closing');
       this.close();
     }
   }),
 
   // Transition Defaults
-  transitionScope: '> *',
+  transitionScope: '> *:not(.ui.dimmer)',
   transitionMode: Ember.computed.readOnly('accordion.transitionMode'),
   transitionDuration: Ember.computed.readOnly('accordion.duration'),
 
@@ -60,10 +66,11 @@ export default Ember.Component.extend(SSTransition, {
   },
 
   open() {
-    this.transitionIn();
+    // this.transitionIn();
     let scope = this.$();
-    scope.addClass('active animating');
+
     scope.slideDown(this.get('transitionDuration'), 'easeOutQuad', Ember.run.bind(this, this._opened));
+    scope.addClass('active animating');
   },
 
   _opened() {
@@ -81,7 +88,7 @@ export default Ember.Component.extend(SSTransition, {
   },
 
   close() {
-    this.transitionOut();
+    // this.transitionOut();
     let scope = this.$();
     scope.addClass('active animating');
     scope.slideUp(this.get('transitionDuration'), 'easeOutQuad', Ember.run.bind(this, this._closed));
