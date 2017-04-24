@@ -2,8 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['title'],
-
-  collapsible: true,
+  classNameBindings: ['accordion._isActive:active'],
 
   click(event) {
     this.get('accordion').toggle();

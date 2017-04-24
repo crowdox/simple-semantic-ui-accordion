@@ -1,7 +1,6 @@
 {{yield
   (hash
-    title=(component accordionTitleName on-click=(action 'toggleIsOpen') isOpen=isOpen)
-    content=(component accordionContentName isOpen=isOpen)
-    isOpen=isOpen
+    title=(component accordionTitleName accordion=this)
+    content=(component accordionContentName accordion=this)
   )
 }}
