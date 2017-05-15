@@ -4,7 +4,14 @@ export default Ember.Mixin.create({
   accordionTitleName: 'ss-accordion-title',
   accordionContentName: 'ss-accordion-content',
 
-  duration: Ember.computed('group', function() {
+  isActive: false,
+  // Only set externally
+  isOpen: false,
+
+  title: null,
+  content: null,
+
+  duration: Ember.computed('group.duration', function() {
     let group = this.get('group');
     if (Ember.isPresent(group)) {
       return group.get('duration');
@@ -13,7 +20,7 @@ export default Ember.Mixin.create({
     return 500;
   }),
 
-  transitionMode: Ember.computed('group', function() {
+  transitionMode: Ember.computed('group.transitionMode', function() {
     let group = this.get('group');
     if (Ember.isPresent(group)) {
       return group.get('transitionMode');
@@ -22,12 +29,34 @@ export default Ember.Mixin.create({
     return 'fade';
   }),
 
+  didInsertElement() {
+    this._super(...arguments);
+    if (this.get('isOpen')) {
+      this.perform();
+    }
+  },
+
   didUpdateAttrs() {
     this._super(...arguments);
     if (this.get('isOpen') === this.get('isActive')) {
       return;
     }
 
-    this.toggle();
+    this.perform();
+  },
+
+  // The method called from accordion and group
+  toggle() {
+    this.toggleProperty('isActive');
+    this.get('content').toggle();
+  },
+
+  // Called on init
+  registerTitle(title) {
+    this.set('title', title);
+  },
+
+  registerContent(content) {
+    this.set('content', content);
   }
 });

@@ -9,43 +9,31 @@ export default Ember.Component.extend({
   duration: 500,
   transitionMode: 'fade',
 
-  activeItems: null,
+  accordions: null,
 
   init() {
     this._super(...arguments);
-    this.set('activeItems', Ember.A([]));
+    this.set('accordions', Ember.A([]));
   },
 
-  toggle(name) {
-    let activeItems = this.get('activeItems');
-    if (!this.get('collapsible')) {
-      // If we only have one item left, and its the item passed in, return. We can't collapse
-      if (activeItems.get('length') === 1 && activeItems.isAny('name', name)) {
-        return;
-      }
-    }
+  perform(current) {
+    let accordions = this.get('accordions');
+    accordions.addObject(current);
 
-    // We have a new item coming in, check if exclusive is true
-    // If its exclusive, only one can be open at a time
-    if (this.get('exclusive')) {
-      if (activeItems.get('length') !== 1) {
-        // Remove all the items
-        let exists = activeItems.isAny('name', name);
-        activeItems.clear();
-
-        // If the name passed in already exists, then return so we don't reactivate it
-        if (exists) {
-          this.endPropertyChanges();
-          return;
+    for (let accordion of accordions) {
+      if (current !== accordion) {
+        if (this.get('exclusive') === true && accordion.get('isActive') === true) {
+          accordion.toggle();
         }
       }
     }
 
-    let existing = activeItems.findBy('name', name);
-    if (Ember.isPresent(existing)) {
-      activeItems.removeObject(existing);
+    if (this.get('collapsible') === false) {
+      if (current.get('isActive') === false) {
+        current.toggle();
+      }
     } else {
-      activeItems.addObject(Ember.Object.create({ name: name }));
+      current.toggle();
     }
   }
 });

@@ -12,11 +12,7 @@ export default Ember.Component.extend(AccordionBaseMixin, {
     }
   },
 
-  isActive: Ember.computed('group.activeItems.[]', function() {
-    return this.get('group').get('activeItems').isAny('name', this.get('name'));
-  }),
-
-  toggle() {
-    this.get('group').toggle(this.get('name'));
+  perform() {
+    this.get('group').perform(this);
   }
 });
