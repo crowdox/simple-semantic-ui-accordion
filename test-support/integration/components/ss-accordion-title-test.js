@@ -6,20 +6,20 @@ moduleForComponent('ss-accordion-title', 'Integration | Component | ss accordion
 });
 
 test('it renders', function(assert) {
-
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
-  this.render(hbs`{{ss-accordion-title}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
+  assert.expect(2);
+  let registerCalled = false;
+  this.set('accordion', {
+    registerTitle() {
+      registerCalled = true;
+    }
+  });
   // Template block usage:
   this.render(hbs`
-    {{#ss-accordion-title}}
+    {{#ss-accordion-title accordion=accordion}}
       template block text
     {{/ss-accordion-title}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(registerCalled, true);
 });

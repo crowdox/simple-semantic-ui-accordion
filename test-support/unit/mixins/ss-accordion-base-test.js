@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SsAccordionBaseMixin from 'simple-semantic-ui-accordion/mixins/ss-accordion-base';
+import SsAccordionBaseMixin from 'manage/mixins/ss-accordion-base';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | ss accordion base');
