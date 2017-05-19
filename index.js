@@ -6,5 +6,9 @@ module.exports = {
 
   isDevelopingAddon: function() {
     return true;
+  },
+
+  included: function(app) {
+    app.import('vendor/javascripts/easeOutQuad.js');
   }
 };
