@@ -1,4 +1,5 @@
 import Ember from 'ember';
+// Relative path works since both survey and manage are in lib/...
 import SSTransition from '../mixins/ss-transition';
 
 export default Ember.Component.extend(SSTransition, {
