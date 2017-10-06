@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SSTransition from 'manage/mixins/ss-transition';
+import SSTransition from '../mixins/ss-transition';
 
 export default Ember.Component.extend(SSTransition, {
   classNames: ['content'],
