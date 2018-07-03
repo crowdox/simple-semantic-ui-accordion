@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import { scheduleOnce, bind } from '@ember/runloop';
+import { readOnly } from '@ember/object/computed';
+import Component from '@ember/component';
 // Relative path works since both survey and manage are in lib/...
 import SSTransition from '../mixins/ss-transition';
 
-export default Ember.Component.extend(SSTransition, {
+export default Component.extend(SSTransition, {
   classNames: ['content'],
 
-  _isActive: Ember.computed.readOnly('accordion.isActive'),
+  _isActive: readOnly('accordion.isActive'),
 
   isOpening: false,
   isClosing: false,
@@ -17,7 +19,7 @@ export default Ember.Component.extend(SSTransition, {
 
   didInsertElement() {
     this._super(...arguments);
-    Ember.run.scheduleOnce('afterRender', this, function() {
+    scheduleOnce('afterRender', this, function() {
       if (this.get('_isActive')) {
         this.$().addClass('active');
       }
@@ -45,8 +47,8 @@ export default Ember.Component.extend(SSTransition, {
 
   // Transition Defaults
   transitionScope: '> *:not(.ui.dimmer)',
-  transitionMode: Ember.computed.readOnly('accordion.transitionMode'),
-  transitionDuration: Ember.computed.readOnly('accordion.duration'),
+  transitionMode: readOnly('accordion.transitionMode'),
+  transitionDuration: readOnly('accordion.duration'),
 
   isOpened() {
     let scope = this.$();
@@ -68,7 +70,7 @@ export default Ember.Component.extend(SSTransition, {
       isClosing: false
     });
 
-    scope.slideDown(this.get('transitionDuration'), 'easeOutQuad', Ember.run.bind(this, this._opened));
+    scope.slideDown(this.get('transitionDuration'), 'easeOutQuad', bind(this, this._opened));
     scope.addClass('active animating');
   },
 
@@ -97,7 +99,7 @@ export default Ember.Component.extend(SSTransition, {
     });
 
     scope.addClass('active animating');
-    scope.slideUp(this.get('transitionDuration'), 'easeOutQuad', Ember.run.bind(this, this._closed));
+    scope.slideUp(this.get('transitionDuration'), 'easeOutQuad', bind(this, this._closed));
   },
 
   _closed() {

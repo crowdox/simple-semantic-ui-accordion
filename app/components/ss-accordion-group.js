@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ui', 'accordion'],
   accordionComponentName: 'ss-accordion-tagless',
 
@@ -13,7 +14,7 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    this.set('accordions', Ember.A([]));
+    this.set('accordions', A([]));
   },
 
   perform(current) {

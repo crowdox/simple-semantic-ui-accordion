@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import { isPresent } from '@ember/utils';
+import { computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   accordionTitleName: 'ss-accordion-title',
   accordionContentName: 'ss-accordion-content',
 
@@ -11,18 +13,18 @@ export default Ember.Mixin.create({
   title: null,
   content: null,
 
-  duration: Ember.computed('group.duration', function() {
+  duration: computed('group.duration', function() {
     let group = this.get('group');
-    if (Ember.isPresent(group)) {
+    if (isPresent(group)) {
       return group.get('duration');
     }
 
     return 500;
   }),
 
-  transitionMode: Ember.computed('group.transitionMode', function() {
+  transitionMode: computed('group.transitionMode', function() {
     let group = this.get('group');
-    if (Ember.isPresent(group)) {
+    if (isPresent(group)) {
       return group.get('transitionMode');
     }
 
