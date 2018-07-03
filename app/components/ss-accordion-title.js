@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     this.get('accordion').registerTitle(this);
   },
 
-  click(event) {
+  click() {
     this.get('accordion').perform();
     this.get('onclick')();
   }
