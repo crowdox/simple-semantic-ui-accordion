@@ -1,48 +1,50 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('ss-accordion', 'Integration | Component | ss accordion', {
-  integration: true
-});
+module('Integration | Component | ss accordion', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  assert.expect(2);
+  test('it renders', async function(assert) {
+    assert.expect(2);
 
-  this.render(hbs`
-    {{#ss-accordion class="styled" as |ss|}}
-      {{#ss.title}}
-        Semantic UI
-      {{/ss.title}}
-      {{#ss.content}}
-        Accordion Component
-      {{/ss.content}}
-    {{/ss-accordion}}
-  `);
+    await render(hbs`
+      {{#ss-accordion class="styled" as |ss|}}
+        {{#ss.title}}
+          Semantic UI
+        {{/ss.title}}
+        {{#ss.content}}
+          Accordion Component
+        {{/ss.content}}
+      {{/ss-accordion}}
+    `);
 
-  // Test default state
-  assert.equal(this.$('.ui.accordion').length, 1);
-  assert.equal(this.$('.ui.accordion .active').length, 0);
-});
+    // Test default state
+    assert.dom('.ui.accordion').exists();
+    assert.dom('.ui.accordion .active').doesNotExist();
+  });
 
-test('clicking activates title', function(assert) {
-  assert.expect(4);
+  test('clicking activates title', async function(assert) {
+    assert.expect(4);
 
-  this.render(hbs`
-    {{#ss-accordion class="styled" as |ss|}}
-      {{#ss.title}}
-        Semantic UI
-      {{/ss.title}}
-      {{#ss.content}}
-        Accordion Component
-      {{/ss.content}}
-    {{/ss-accordion}}
-  `);
+    await render(hbs`
+      {{#ss-accordion class="styled" as |ss|}}
+        {{#ss.title}}
+          Semantic UI
+        {{/ss.title}}
+        {{#ss.content}}
+          Accordion Component
+        {{/ss.content}}
+      {{/ss-accordion}}
+    `);
 
-  assert.equal(this.$('.ui.accordion .title.active').length, 0);
-  assert.equal(this.$('.ui.accordion .content.active').length, 0);
+    assert.dom('.ui.accordion .title.active').doesNotExist();
+    assert.dom('.ui.accordion .content.active').doesNotExist();
 
-  // Test clicking activates accordion
-  this.$('.ui.accordion .title').click();
-  assert.equal(this.$('.ui.accordion .title.active').length, 1);
-  assert.equal(this.$('.ui.accordion .content.active').length, 1);
+    // Test clicking activates accordion
+    await click('.ui.accordion .title');
+    assert.dom('.ui.accordion .title.active').exists();
+    assert.dom('.ui.accordion .content.active').exists();
+  });
 });
