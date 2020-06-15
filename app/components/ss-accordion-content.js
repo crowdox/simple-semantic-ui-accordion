@@ -3,6 +3,7 @@ import { readOnly } from '@ember/object/computed';
 import Component from '@ember/component';
 // Relative path works since both survey and manage are in lib/...
 import SSTransition from '../mixins/ss-transition';
+import jQuery from 'jquery';
 
 export default Component.extend(SSTransition, {
   classNames: ['content'],
@@ -21,7 +22,7 @@ export default Component.extend(SSTransition, {
     this._super(...arguments);
     scheduleOnce('afterRender', this, function() {
       if (this.get('_isActive')) {
-        this.$().addClass('active');
+        jQuery(this.element).addClass('active');
       }
     });
   },
@@ -51,19 +52,19 @@ export default Component.extend(SSTransition, {
   transitionDuration: readOnly('accordion.duration'),
 
   isOpened() {
-    let scope = this.$();
+    let scope = jQuery(this.element);
     return scope.hasClass('active') &&
            !scope.hasClass('animating');
   },
 
   isClosed() {
-    let scope = this.$();
+    let scope = jQuery(this.element);
     return !scope.hasClass('active');
   },
 
   open() {
     this.transitionIn();
-    let scope = this.$();
+    let scope = jQuery(this.element);
 
     this.setProperties({
       isOpening: true,
@@ -83,7 +84,7 @@ export default Component.extend(SSTransition, {
       return;
     }
 
-    let scope = this.$();
+    let scope = jQuery(this.element);
     scope.addClass('active');
     scope.removeClass('animating');
     this.set('isOpening', false);
@@ -91,7 +92,7 @@ export default Component.extend(SSTransition, {
 
   close() {
     this.transitionOut();
-    let scope = this.$();
+    let scope = jQuery(this.element);
 
     this.setProperties({
       isOpening: false,
@@ -111,7 +112,7 @@ export default Component.extend(SSTransition, {
       return;
     }
 
-    this.$().removeClass('active animating');
+    jQuery(this.element).removeClass('active animating');
     this.set('isClosing', false);
   }
 });
